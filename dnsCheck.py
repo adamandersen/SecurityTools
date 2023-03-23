@@ -6,9 +6,8 @@ import pydig
 debug = 1
 filepath ="./hosts_csv"
 manual_hosts = [
-    "google.com",
-    "dr.dk",
-    "tv2.dk"
+    #"google.com",
+    "dr.dk"
 ]
 
 
@@ -36,11 +35,21 @@ def listToString(s):
     return string
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  
     
-    for hosts in csvImport(filepath):
-        a_record = pydig.query(listToString(hosts), "A")
-        txt_record = pydig.query(listToString(hosts), "TXT")
-        mx_record = pydig.query(listToString(hosts), "MX")
-        ns_record = pydig.query(listToString(hosts), "NS")
-        print(f'{hosts};{a_record};{txt_record},{mx_record},{ns_record} \n\n')
+    try:
+
+        with open('output.csv', 'w', newline='') as output_file:
+            writer = csv.writer(output_file, dialect="excel", delimiter=";")
+            writer.writerow(["url_host", "a_record", "ns_record", "mx_record", "txt_record"])
+
+            for hosts in csvImport(filepath):
+                a_record = pydig.query(listToString(hosts), "A")
+                ns_record = pydig.query(listToString(hosts), "NS")
+                mx_record = pydig.query(listToString(hosts), "MX")
+                txt_record = pydig.query(listToString(hosts), "TXT")      
+                writer.writerow([hosts, a_record, ns_record, mx_record, txt_record]) 
+            
+            output_file.close()
+    except Exception as e:
+        print(f"DANGER WILL ROBINSON: {e}")
