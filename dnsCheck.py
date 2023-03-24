@@ -3,12 +3,8 @@
 import csv
 import pydig
 
-debug = 1
-filepath ="./hosts_csv"
-manual_hosts = [
-    #"google.com",
-    "dr.dk"
-]
+importfile ="hosts.csv"
+exportfile ='export.csv'
 
 
 def csvImport(path):
@@ -39,16 +35,22 @@ if __name__ == "__main__":
     
     try:
 
-        with open('output.csv', 'w', newline='') as output_file:
+        with open(exportfile, 'w', newline='') as output_file:
             writer = csv.writer(output_file, dialect="excel", delimiter=";")
-            writer.writerow(["url_host", "a_record", "ns_record", "mx_record", "txt_record"])
+            writer.writerow(["url_host", "a_record", "cname_record", "ns_record", "mx_record", "txt_record"])
 
-            for hosts in csvImport(filepath):
+            for hosts in csvImport(importfile):
                 a_record = pydig.query(listToString(hosts), "A")
+                cname_record = pydig.query(listToString(hosts), "CNAME")
                 ns_record = pydig.query(listToString(hosts), "NS")
                 mx_record = pydig.query(listToString(hosts), "MX")
-                txt_record = pydig.query(listToString(hosts), "TXT")      
-                writer.writerow([hosts, a_record, ns_record, mx_record, txt_record]) 
+                caa_record = pydig.query(listToString(hosts), "CAA")
+                txt_record = pydig.query(listToString(hosts), "TXT")
+                soa_record = pydig.query(listToString(hosts), "SOA") 
+                writer.writerow([hosts, a_record, cname_record, ns_record, mx_record, caa_record,txt_record, soa_record]) 
+
+                print(hosts, a_record, cname_record, ns_record, mx_record, caa_record, txt_record, soa_record)
+            
             
             output_file.close()
     except Exception as e:
