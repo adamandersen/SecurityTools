@@ -5,7 +5,7 @@ import pydig
 
 importfile ="hosts.csv"
 exportfile ='export.csv'
-
+debug = 1
 
 def csvImport(path):
     hosts = []
