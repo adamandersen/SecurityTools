@@ -1489,3 +1489,4 @@ lib/python3.10/site-packages/setuptools-63.2.0.dist-info/top_level.txt
 lib/python3.10/site-packages/setuptools-63.2.0.dist-info/WHEEL
 pyvenv.cfg
 export.csv
+.gitignore
