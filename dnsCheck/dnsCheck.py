@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#
-# LICENSED under GPLv3
-# Adam Andersen 2023 adam.andersen[at]pm.me
+# LICENSED under GPLv3 - Copyright (C) 2023 Adam Andersen, adam.andersen[at]pm.me
 # check domain DNS records and explort the results
 
 # TODO:
